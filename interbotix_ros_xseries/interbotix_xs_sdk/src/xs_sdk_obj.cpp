@@ -401,9 +401,10 @@ bool InterbotixRobotXS::robot_get_motor_configs(void)
   if (mode_configs.IsNull())
     ROS_INFO("Mode Config file is empty.");
 
-  port = motor_configs["port"].as<std::string>(PORT);
-  if (mode_configs["port"])
-    port = mode_configs["port"].as<std::string>(PORT);
+  std::string robot_port;
+  ros::param::get("~arm_port", robot_port);
+
+  port = robot_port;
 
   YAML::Node all_motors = motor_configs["motors"];
   for (YAML::const_iterator motor_itr = all_motors.begin(); motor_itr != all_motors.end(); motor_itr++)
